@@ -5,11 +5,16 @@ import java.util.ArrayList;
 interface FileSystemNode {
 
     FileSystemNode getParent();
+
     String getName();
+
     String getPath();
+
+    void setParent(FileSystemNode parent);
+
 }
 
-class AbstractFileSystemNode implements FileSystemNode{
+class AbstractFileSystemNode implements FileSystemNode {
 
     private String name;
     private FileSystemNode parent;
@@ -31,45 +36,45 @@ class AbstractFileSystemNode implements FileSystemNode{
 
     @Override
     public final String getPath() {
-        if(parent==null) return name;
-        return parent.getPath()+"/"+name;
+        if (parent == null) return name;
+        return parent.getPath() + "/" + name;
     }
 
-    public void setParent(FileSystemNode parent){
-        this.parent=parent;
+    @Override
+    public void setParent(FileSystemNode parent) {
+        this.parent = parent;
     }
 
 }
 
-class Folder extends AbstractFileSystemNode{
-    ArrayList<AbstractFileSystemNode> content;
+class Folder extends AbstractFileSystemNode {
+    ArrayList<FileSystemNode> content;
 
-    public Folder(String name, FileSystemNode parent,ArrayList<AbstractFileSystemNode> content){
-        super(name,parent);
-        this.content=content;
-        if(content!=null)
-            for (AbstractFileSystemNode sn : this.content) {
+    public Folder(String name, FileSystemNode parent, ArrayList<FileSystemNode> content) {
+        super(name, parent);
+        this.content = content;
+        if (content != null)
+            for (FileSystemNode sn : this.content) {
                 sn.setParent(this);
             }
     }
 
-    public ArrayList<AbstractFileSystemNode> getChildElements(){
+    public ArrayList<FileSystemNode> getChildElements() {
         return content;
     }
 
-    public String textView(int i){ // i - количество табов
+    public String textView(int i) { // i - количество табов
         String view = "";
-        for(int j=0;j<i;j++) view+="\t";
-        view+= "/ "+getName()+"\n";
+        for (int j = 0; j < i; j++) view += "\t";
+        view += "/ " + getName() + "\n";
         i++;
-        if(content!=null)
-            for (AbstractFileSystemNode sn : content){
-                if(sn instanceof File){
-                    for(int j=0;j<i;j++) view+="\t";
-                    view+=""+sn.getName()+"\n";
-                }
-                else if (sn instanceof Folder){
-                    view+=((Folder) sn).textView(i);
+        if (content != null)
+            for (FileSystemNode sn : content) {
+                if (sn instanceof File) {
+                    for (int j = 0; j < i; j++) view += "\t";
+                    view += "" + sn.getName() + "\n";
+                } else if (sn instanceof Folder) {
+                    view += ((Folder) sn).textView(i);
                 }
             }
         return view;
@@ -80,12 +85,14 @@ class Folder extends AbstractFileSystemNode{
         return textView(0);
     }
 }
-class File extends AbstractFileSystemNode{
-    public File (String name,FileSystemNode parent){
-        super(name,parent);
+
+class File extends AbstractFileSystemNode {
+    public File(String name, FileSystemNode parent) {
+        super(name, parent);
     }
-    public String getExtension(){
-        return getName().split("\\.")[getName().split("\\.").length-1];
+
+    public String getExtension() {
+        return getName().split("\\.")[getName().split("\\.").length - 1];
     }
 }
 

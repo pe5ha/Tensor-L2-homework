@@ -3,39 +3,39 @@ package com.tensor.homework;
 import java.util.Objects;
 
 // Задача 3
-class Card implements Comparable<Card>{
+class Card implements Comparable<Card> {
     private String suit;
     private int rank;
 
-    public static final String[] suits = {"hearts","spades","diamonds","clubs"};
-    private static final String[] cardNames = {"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King","Joker"};
+    public static final String[] suits = {"hearts", "spades", "diamonds", "clubs"};
+    private static final String[] cardNames = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Joker"};
 
     public Card(String suit, int rank) {
-        if(isCardRank(rank)) this.rank = rank;
-        else System.out.println("Ошибка: "+rank+" не является рангом карты");
-        if(isCardSuit(suit)) this.suit = suit;
-        else System.out.println("Ошибка: "+suit+" не является типом карты");
+        if (isCardRank(rank)) this.rank = rank;
+        else System.out.println("Ошибка: " + rank + " не является рангом карты");
+        if (isCardSuit(suit)) this.suit = suit;
+        else System.out.println("Ошибка: " + suit + " не является типом карты");
     }
 
-    public static boolean isCardSuit(String suit){
-        for(String c : suits) if(suit.equals(c)) return true;
+    public static boolean isCardSuit(String suit) {
+        for (String c : suits) if (suit.equals(c)) return true;
         return false;
     }
 
-    public static boolean isCardRank(int rank){
+    public static boolean isCardRank(int rank) {
         return rank >= 1 && rank <= 14;
     }
 
-    public static boolean isStandartCard(Card card){
-        return isCardRank(card.rank)&&isCardSuit(card.suit);
+    public static boolean isStandartCard(Card card) {
+        return isCardRank(card.rank) && isCardSuit(card.suit);
     }
 
-    public boolean isBetterThen(Card card){
-        return suit.equals(card.suit)&&rank>card.rank;
+    public boolean isBetterThen(Card card) {
+        return suit.equals(card.suit) && rank > card.rank;
     }
 
-    public int compare(Card card){ // >0 if this card better, =0 if equal, <0 if this card weaker
-        if(suit.equals(card.suit)) return rank-card.rank;
+    public int compare(Card card) { // >0 if this card better, =0 if equal, <0 if this card weaker
+        if (suit.equals(card.suit)) return rank - card.rank;
         else {
             for (String s : suits) {
                 if (s.equals(suit)) return 1;
@@ -44,8 +44,9 @@ class Card implements Comparable<Card>{
         }
         return -1000;
     }
-    public static int compare(Card card, Card card1){ // >0 if card better then card1, =0 if equal, <0 otherwise
-        if(card.suit.equals(card1.suit)) return card.rank-card1.rank;
+
+    public static int compare(Card card, Card card1) { // >0 if card better then card1, =0 if equal, <0 otherwise
+        if (card.suit.equals(card1.suit)) return card.rank - card1.rank;
         else {
             for (String s : suits) {
                 if (s.equals(card.suit)) return 1;
@@ -57,7 +58,7 @@ class Card implements Comparable<Card>{
 
     @Override
     public String toString() {
-        return suit + "-" + cardNames[rank-1];
+        return suit + "-" + cardNames[rank - 1];
     }
 
     @Override
@@ -101,40 +102,41 @@ class CardV3 {
     private String suit;
     private int rank;
 
-    private static final int[] maxRanks = {0,0,0,0};
-    private static final String[] suits = {"diamonds","clubs","hearts","spades"};
+    private static final int[] maxRanks = {0, 0, 0, 0};
+    private static final String[] suits = {"diamonds", "clubs", "hearts", "spades"};
 
     public CardV3(String suit, int rank) throws Exception {
         this.rank = rank;
-        if(isCardSuit(suit)) this.suit = suit;
-        else throw new Exception("Ошибка: "+suit+" не является типом карты");
-        saveMaxRank(this.suit,this.rank);
+        if (isCardSuit(suit)) this.suit = suit;
+        else throw new Exception("Ошибка: " + suit + " не является типом карты");
+        saveMaxRank(this.suit, this.rank);
     }
 
     public CardV3(String suit) throws Exception {
-        if(isCardSuit(suit)) this.suit = suit;
-        else throw new Exception("Ошибка: "+suit+" не является типом карты");
-        this.rank=getMaxRank(suit)+1;
-        saveMaxRank(this.suit,this.rank);
+        if (isCardSuit(suit)) this.suit = suit;
+        else throw new Exception("Ошибка: " + suit + " не является типом карты");
+        this.rank = getMaxRank(suit) + 1;
+        saveMaxRank(this.suit, this.rank);
     }
 
-    private void saveMaxRank(String suit,int rank){
+    private void saveMaxRank(String suit, int rank) {
         for (int i = 0; i < suits.length; i++) {
-            if(suits[i].equals(suit)){
-                if(maxRanks[i]<rank) maxRanks[i]=rank;
+            if (suits[i].equals(suit)) {
+                if (maxRanks[i] < rank) maxRanks[i] = rank;
                 return;
             }
         }
     }
-    private int getMaxRank(String suit){
+
+    private int getMaxRank(String suit) {
         for (int i = 0; i < suits.length; i++) {
-            if(suits[i].equals(suit)) return maxRanks[i];
+            if (suits[i].equals(suit)) return maxRanks[i];
         }
         return 0;
     }
 
-    public static boolean isCardSuit(String suit){
-        for(String c : suits) if(suit.equals(c)) return true;
+    public static boolean isCardSuit(String suit) {
+        for (String c : suits) if (suit.equals(c)) return true;
         return false;
     }
 
@@ -164,7 +166,6 @@ class CardV3 {
 }
 
 
-
 // Задача 2 реализация "b"
 class CardV2 {
     private int rank;
@@ -172,15 +173,15 @@ class CardV2 {
 
     public CardV2(int rank, String suit) {
         this.rank = rank;
-        if(isCardSuit(suit))
+        if (isCardSuit(suit))
             this.suit = suit;
         else
-            System.out.println("Ошибка: "+suit+" не является типом карты");
+            System.out.println("Ошибка: " + suit + " не является типом карты");
     }
 
-    public static boolean isCardSuit(String suit){
-        String[] suits = {"diamonds","clubs","hearts","spades"};
-        for(String c : suits) if(suit.equals(c)) return true;
+    public static boolean isCardSuit(String suit) {
+        String[] suits = {"diamonds", "clubs", "hearts", "spades"};
+        for (String c : suits) if (suit.equals(c)) return true;
         return false;
     }
 
